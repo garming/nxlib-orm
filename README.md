@@ -1,4 +1,4 @@
-# PHP nosql-odm Library
+# PHP rdbms-orm Library
 =======================
 
 ## Requirements
@@ -11,7 +11,7 @@
   ```
   "require":
         {
-             "nxlib/nosqlodm":  "~0.0.1"
+             "nxlib/rdsorm":  "~0.0.1"
         }
   ```
   
@@ -26,7 +26,7 @@
       ],
       "minimum-stability": "dev",
       "require": {
-         "nxlib/nosqlodm":  "~0.0.1"
+         "nxlib/rdsorm":  "~0.0.1"
       }
     }
   ```
