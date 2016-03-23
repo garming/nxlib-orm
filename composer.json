@@ -1,0 +1,23 @@
+{
+  "name": "nxlib/rdsorm",
+  "description": "rdbms-orm",
+  "keywords": ["mysql"],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Garming Lau",
+      "email": "garming@msn.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "ext-pdo": "*"
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "NxLib\\RdsOrm\\": "src/"
+    }
+  }
+}
