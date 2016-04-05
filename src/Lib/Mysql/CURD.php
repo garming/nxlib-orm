@@ -36,6 +36,7 @@ class CURD implements CURDInterface
         if(!empty($bindParam)){
             $i = 1;
             foreach ($bindParam as $k => $v){
+
                 if(is_int($k)){
                     if(is_int($v)){
                         $sth->bindValue($i, $v, \PDO::PARAM_INT);
@@ -54,7 +55,7 @@ class CURD implements CURDInterface
         if(!$exec){
             return $exec;
         }
-        $rs = $sth->fetchAll();
+        $rs = $sth->fetchAll(\PDO::FETCH_ASSOC);
         $last_id = $this->conn->lastInsertId();
         if(strpos($sql,"SELECT") === 0){
             return $rs;
@@ -246,5 +247,12 @@ class CURD implements CURDInterface
             $table .= " AS {$alias} ";
         }
         return $table;
+    }
+    public function closeAutoCommit(){
+        $this->conn->setAttribute(\PDO::ATTR_AUTOCOMMIT, 0);
+        $this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+    }
+    public function openAutoCommit(){
+        $this->conn->setAttribute(\PDO::ATTR_AUTOCOMMIT, 1);
     }
 }
