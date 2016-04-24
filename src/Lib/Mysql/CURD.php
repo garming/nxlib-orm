@@ -55,10 +55,13 @@ class CURD implements CURDInterface
         if(!$exec){
             return $exec;
         }
-        $rs = $sth->fetchAll(\PDO::FETCH_ASSOC);
-        $last_id = $this->conn->lastInsertId();
-        if(strpos($sql,"SELECT") === 0){
+        if(strpos($sql,"SELECT") === 0 || strpos($sql,"select") === 0){
+            $rs = $sth->fetchAll(\PDO::FETCH_ASSOC);
             return $rs;
+        }
+        $last_id = 0;
+        if(strpos($sql,"INSERT") === 0){
+            $last_id = $this->conn->lastInsertId();
         }
         if(empty($rs) && empty($last_id)){
             return $exec;
