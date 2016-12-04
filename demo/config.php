@@ -9,18 +9,18 @@ return [
     'default' => [
         'driver' => 'mysql',
         'hostname' => '127.0.0.1',
-        'port' => '3306',
+        'port' => '8889',
         'username' => 'root',
-        'password' => '',
+        'password' => 'root',
         'database' => 'testdb',
         'charset' => 'utf8'
     ],
     'no_def' => [
         'driver' => 'mysql',
         'hostname' => '127.0.0.1',
-        'port' => '3306',
+        'port' => '8889',
         'username' => 'root',
-        'password' => '',
+        'password' => 'root',
         'database' => 'testdb',
         'charset' => 'utf8'
     ]
