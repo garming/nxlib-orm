@@ -11,7 +11,7 @@ namespace NxLib\RdsOrm\Lib\Mysql;
 
 class Instance
 {
-    public static function get($flag)
+    public static function get($flag = "default")
     {
         return new CURD($flag);
     }

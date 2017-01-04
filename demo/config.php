@@ -2,26 +2,26 @@
 /**
  * Created by PhpStorm.
  * User: garming
- * Date: 2016/3/21
- * Time: 19:42
+ * Date: 2017/1/4
+ * Time: 17:11
  */
 return [
-    'default' => [
+    'default' => [//default must exist
         'driver' => 'mysql',
         'hostname' => '127.0.0.1',
-        'port' => '8889',
+        'port' => '3306',
         'username' => 'root',
         'password' => 'root',
-        'database' => 'testdb',
+        'database' => 'test_db_1',
         'charset' => 'utf8'
     ],
-    'no_def' => [
-        'driver' => 'mysql',
-        'hostname' => '127.0.0.1',
-        'port' => '8889',
-        'username' => 'root',
-        'password' => 'root',
-        'database' => 'testdb',
-        'charset' => 'utf8'
-    ]
+//    'no_def' => [// if you have tow more different db,you can add like this
+//        'driver' => 'mysql',
+//        'hostname' => '127.0.0.1',
+//        'port' => '3306',
+//        'username' => 'root',
+//        'password' => '',
+//        'database' => 'test_db_2',
+//        'charset' => 'utf8'
+//    ]
 ];
