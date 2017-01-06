@@ -68,10 +68,10 @@ class CURD implements CURDInterface
 //        //todo
 //    }
 //
-//    public function insertExistUpdate(array $data, array $update_data)
-//    {
-//        //todo
-//    }
+    public function insertExistUpdate(array $data, array $update_data)
+    {
+        //todo
+    }
 
     public function update(array $data)
     {
