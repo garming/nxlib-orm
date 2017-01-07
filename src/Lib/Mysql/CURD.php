@@ -63,11 +63,11 @@ class CURD implements CURDInterface
         return $this;
     }
 
-//    public function insertMulti(array $fields,array $data)
-//    {
-//        //todo
-//    }
-//
+    public function insertMulti(array $fields,array $data)
+    {
+        //todo
+    }
+
     public function insertExistUpdate(array $data, array $update_data)
     {
         //todo
