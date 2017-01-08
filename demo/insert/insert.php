@@ -16,6 +16,6 @@ $data = [
     'name' => 'name'.time(),
     'created' => time()
 ];
-$result = $default->table($table)->insert($data)->exec();
+$result = $default->table($table)->insert($data);
 $default->insert($data)->exec();
 vd($result);
