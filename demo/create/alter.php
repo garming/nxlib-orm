@@ -10,7 +10,7 @@ ALTER TABLE `users`
 ";
 
 try{
-    $result = $default->query($sql);
+    $result = $default->query($sql)->exec();
     vd($result);
 }catch (Exception $e){
     $e->getTrace();
