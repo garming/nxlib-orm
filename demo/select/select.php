@@ -11,3 +11,5 @@ $init = \NxLib\RdsOrm\Instance::init($config);
 $default = \NxLib\RdsOrm\Lib\Mysql\Instance::get();
 
 $table = "users";
+$sql = "select * from users";
+$data = $default->query($sql);
