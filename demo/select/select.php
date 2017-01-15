@@ -13,3 +13,7 @@ $default = \NxLib\RdsOrm\Lib\Mysql\Instance::get();
 $table = "users";
 $sql = "select * from users";
 $data = $default->query($sql);
+
+$sql = "select * from users where id=?";
+$data = $default->query($sql,[1]);
+
