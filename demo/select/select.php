@@ -17,3 +17,4 @@ $data = $default->query($sql);
 $sql = "select * from users where id=?";
 $data = $default->query($sql,[1]);
 
+$data = $default->table("users")->select()->exec();
