@@ -11,7 +11,7 @@
   ```
   "require":
         {
-             "nxlib/rdsorm":  "~0.0.1"
+             "nxlib/rdsorm":  "~1.0.0"
         }
   ```
   
@@ -26,7 +26,7 @@
       ],
       "minimum-stability": "dev",
       "require": {
-         "nxlib/rdsorm":  "~0.0.1"
+         "nxlib/rdsorm":  "~1.0.0"
       }
     }
   ```
