@@ -12,38 +12,18 @@ namespace NxLib\RdsOrm\Lib;
 interface CURDInterface
 {
 
-    /**
-     * exec and return the result
-     * @param $sql
-     * @param array $bindParam
-     * @return mixed
-     */
     public function query($sql,$bindParam = []);
 
     public function table($name, $alias = '');
 
-    /**
-     * the result will try to return AUTO_INCREMENT ID
-     * exec and return the result
-     * @param array $data
-     * @return mixed
-     */
     public function insert(array $data);
 
 //    public function insertMulti(array $fields,array $data);
 //
 //    public function insertExistUpdate(array $data, array $update_data);
-    /**
-     * exec and return the result
-     * @param array $data
-     * @return mixed
-     */
+
     public function update(array $data);
 
-    /**
-     * exec and return the result
-     * @return mixed
-     */
     public function delete();
 
     public function beginTransaction();
@@ -52,11 +32,6 @@ interface CURDInterface
 
     public function rollBack();
 
-    /**
-     * run with exec
-     * @param string $fields
-     * @return mixed
-     */
     public function select($fields = '*');
 
     public function where($column, $operation, $value);

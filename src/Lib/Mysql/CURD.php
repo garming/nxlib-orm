@@ -29,12 +29,44 @@ class CURD implements CURDInterface
 
     public function query($sql,$bindParam = [])
     {
-        $this->checkSyntax();
         if(empty($sql)){
             return null;
         }
-        $this->sql["bindParam"] = $bindParam;
-        $this->sql[0] = $sql;
+        $sth = $this->conn->prepare($sql);
+        if(!empty($bindParam)){
+            $i = 1;
+            foreach ($bindParam as $k => $v){
+
+                if(is_int($k)){
+                    if(is_int($v)){
+                        $sth->bindValue($i, $v, \PDO::PARAM_INT);
+                    }else{
+                        $sth->bindValue($i, $v, \PDO::PARAM_STR);
+                    }
+                }else{
+                    $sth->bindValue($i, $v, \PDO::$k);
+                }
+                $i++;
+            }
+        }
+        $exec = $sth->execute();
+        $this->sql = null;
+        $this->table = null;
+        if(!$exec){
+            return $exec;
+        }
+        if(strpos($sql,"SELECT") === 0 || strpos($sql,"select") === 0){
+            $rs = $sth->fetchAll(\PDO::FETCH_ASSOC);
+            return $rs;
+        }
+        $last_id = 0;
+        if(strpos($sql,"INSERT") === 0){
+            $last_id = $this->conn->lastInsertId();
+        }
+        if(empty($rs) && empty($last_id)){
+            return $exec;
+        }
+        return (empty($last_id) ? $rs : $last_id);
     }
 
     public function table($name, $alias = '')
@@ -45,6 +77,7 @@ class CURD implements CURDInterface
         ];
         return $this;
     }
+
     public function insert(array $data)
     {
         $this->checkSyntax();
@@ -63,15 +96,15 @@ class CURD implements CURDInterface
         return $this;
     }
 
-    public function insertMulti(array $fields,array $data)
-    {
-        //todo
-    }
-
-    public function insertExistUpdate(array $data, array $update_data)
-    {
-        //todo
-    }
+//    public function insertMulti(array $fields,array $data)
+//    {
+//        //todo
+//    }
+//
+//    public function insertExistUpdate(array $data, array $update_data)
+//    {
+//        //todo
+//    }
 
     public function update(array $data)
     {
@@ -190,40 +223,7 @@ class CURD implements CURDInterface
         unset($this->sql["bindParam"]);
         ksort($this->sql);
         $sql = implode("",$this->sql);
-        $sth = $this->conn->prepare($sql);
-        if(!empty($bindParam)){
-            $i = 1;
-            foreach ($bindParam as $k => $v){
-
-                if(is_int($k)){
-                    if(is_int($v)){
-                        $sth->bindValue($i, $v, \PDO::PARAM_INT);
-                    }else{
-                        $sth->bindValue($i, $v, \PDO::PARAM_STR);
-                    }
-                }else{
-                    $sth->bindValue($i, $v, \PDO::$k);
-                }
-                $i++;
-            }
-        }
-        $exec = $sth->execute();
-        $this->sql = null;
-        if(!$exec){
-            return $exec;
-        }
-        if(strpos($sql,"SELECT") === 0 || strpos($sql,"select") === 0){
-            $rs = $sth->fetchAll(\PDO::FETCH_ASSOC);
-            return $rs;
-        }
-        $last_id = 0;
-        if(strpos($sql,"INSERT") === 0){
-            $last_id = $this->conn->lastInsertId();
-        }
-        if(empty($rs) && empty($last_id)){
-            return $exec;
-        }
-        return (empty($last_id) ? $rs : $last_id);
+        return $this->query($sql,$bindParam);
     }
 
     private function checkSyntax()
