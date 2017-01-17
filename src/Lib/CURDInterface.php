@@ -18,9 +18,9 @@ interface CURDInterface
 
     public function insert(array $data);
 
-//    public function insertMulti(array $fields,array $data);
-//
-//    public function insertExistUpdate(array $data, array $update_data);
+    public function insertMulti(array $data);
+
+    public function insertExistUpdate(array $data, array $update_data);
 
     public function update(array $data);
 
@@ -33,6 +33,10 @@ interface CURDInterface
     public function rollBack();
 
     public function select($fields = '*');
+
+    public function selectOne($fields = '*');
+
+    public function count();
 
     public function where($column, $operation, $value);
 
@@ -51,5 +55,11 @@ interface CURDInterface
     public function limit($limit = 1, $offset = 0);
 
     public function exec();
+
+    public function autoTransaction();
+
+    public function autoRollBack();
+
+    public function autoCommit();
 
 }

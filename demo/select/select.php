@@ -11,10 +11,17 @@ $init = \NxLib\RdsOrm\Instance::init($config);
 $default = \NxLib\RdsOrm\Lib\Mysql\Instance::get();
 
 $table = "users";
-$sql = "select * from users";
-$data = $default->query($sql);
+//$data = $default->table($table)->select()->exec();
+//console($data);
 
-$sql = "select * from users where id=?";
-$data = $default->query($sql,[1]);
-
-$data = $default->table("users")->select()->exec();
+//$data = $default->table($table)->select()->where("id","=",1)->exec();
+//console($data);
+//
+//$data = $default->table($table)->select()->where("id",">",1)->exec();
+//console($data);
+//
+//$data = $default->table($table)->select()->where("id","<",1)->exec();
+//console($data);
+//
+$data = $default->table($table)->select()->where("id"," like ","%1%")->exec();
+console($data);
