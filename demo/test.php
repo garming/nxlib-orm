@@ -57,4 +57,3 @@ pr($select);
 //    ->group("u.created")
 //    ->order("u.id","ASC")
 //    ->exec();
-//pr($select);

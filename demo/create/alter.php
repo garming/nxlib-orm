@@ -17,4 +17,3 @@ vd($default->query($sql));
 $sql ="ALTER TABLE `users`
 	CHANGE COLUMN `created` `created` INT UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建时间' AFTER `name`;";
 vd($default->query($sql));
-
