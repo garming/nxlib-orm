@@ -305,7 +305,6 @@ class CURD implements CURDInterface
         $bindParam = isset($this->sql["bindParam"]) ? $this->sql["bindParam"] : [];
         unset($this->sql["bindParam"]);
         ksort($this->sql);
-        console($this->sql);
         $sql = implode("", $this->sql);
         return $this->query($sql, $bindParam);
     }

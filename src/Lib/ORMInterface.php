@@ -11,9 +11,9 @@ namespace NxLib\RdsOrm\Lib;
 
 interface ORMInterface
 {
-    public static function find();
+    public static function find($primary_flag);
 
-    public static function findAll();
+    public static function findAll($condiction = []);
 
     public function save();
 
