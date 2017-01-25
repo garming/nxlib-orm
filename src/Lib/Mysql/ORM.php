@@ -61,6 +61,7 @@ class ORM implements ORMInterface
     {
 //        console(static::$primary);
 //        console($this);
+	
     }
 
     public function delete()
