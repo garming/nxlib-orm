@@ -19,4 +19,5 @@ interface ORMInterface
 
     public function delete();
 
+    public function add();
 }

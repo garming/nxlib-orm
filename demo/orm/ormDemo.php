@@ -22,6 +22,16 @@ console(UserExt::getTable());
 //$list = User::findAll();
 //vd($list);
 
-$user = User::find(1);
-vd($user);
-$user->save();
+//$user = User::find(1);
+//vd($user);
+//vd(User::findAll());
+//$user->name = "garming3";
+//$user->save();
+$new_user = new User();
+$new_user->name = "ming";
+$new_user->created = time();
+$new_user->modified = time();
+$new_user->add();
+
+$user_del = User::find(2);
+$user_del->delete();

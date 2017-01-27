@@ -24,10 +24,10 @@ class ORM implements ORMInterface
         $data = $instance->table(static::$table)->selectOne()->where(static::$primary,"=",$primary_flag)->exec();
         $class = static::class;
         $obj = new $class();
-        vd($obj);
-        foreach ($data as $key => $value){
-            $func = "set".ucfirst($key);
-            call_user_func(array($obj, $func),$value);
+        foreach ($obj as $key => $value){
+            if(isset($data[$key])){
+                $obj->$key = $data[$key];
+            }
         }
         return $obj;
     }
@@ -40,9 +40,10 @@ class ORM implements ORMInterface
         $list = [];
         foreach ($data as $row){
             $obj = new $class();
-            foreach ($row as $key => $value ){
-                $func = "set".ucfirst($key);
-                call_user_func(array($obj, $func),$value);
+            foreach ($obj as $key => $value ){
+                if(isset($row[$key])){
+                    $obj->$key = $row[$key];
+                }
             }
             $list[] = $obj;
         }
@@ -59,13 +60,47 @@ class ORM implements ORMInterface
 
     public function save()
     {
-//        console(static::$primary);
-//        console($this);
-	
+        $instance = Instance::get(static::$connect);
+        $save = $instance->table(static::$table);
+        $pk = static::$primary;
+
+        $save_data = [];
+        foreach ($this as $key => $value){
+            console($key ."=>".$value);
+            $save_data[$key] = $value;
+        }
+        $save = $save->update($save_data)->where($pk,"=",$this->$pk)->exec();
+        return $save;
     }
 
-    public function delete()
+    public function delete($sham_del = [])
     {
-        console($this);
+        $instance = Instance::get(static::$connect);
+        $del = $instance->table(static::$table);
+        $pk = static::$primary;
+        if(!empty($sham_del)){
+            //logically deleted
+            $del =  $del->update($sham_del)->where($pk,"=",$this->$pk)->exec();
+        }else{
+            //physically deleted
+            $del =  $del->delete()->where($pk,"=",$this->$pk)->exec();
+        }
+        return $del;
+    }
+    public function add()
+    {
+        $instance = Instance::get(static::$connect);
+        $save = $instance->table(static::$table);
+        $pk = static::$primary;
+
+        $save_data = [];
+        foreach ($this as $key => $value){
+            $save_data[$key] = $value;
+        }
+        if(is_null($this->$pk)){
+            unset($save_data[$pk]);
+        }
+        $save = $save->insert($save_data)->exec();
+        return $save;
     }
 }
