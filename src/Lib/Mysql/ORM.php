@@ -66,7 +66,6 @@ class ORM implements ORMInterface
 
         $save_data = [];
         foreach ($this as $key => $value){
-            console($key ."=>".$value);
             $save_data[$key] = $value;
         }
         $save = $save->update($save_data)->where($pk,"=",$this->$pk)->exec();
