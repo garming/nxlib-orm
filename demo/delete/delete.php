@@ -12,9 +12,5 @@ $init = \NxLib\RdsOrm\Instance::init($config);
 $default = \NxLib\RdsOrm\Lib\Mysql\Instance::get();
 
 $table = "users";
-$data = [
-    'name' => 'name'.time(),
-    'created' => time()
-];
-$result = $default->table($table)->insert($data)->exec();
+$result = $default->table($table)->delete()->where("id","=",4)->exec();
 vd($result);
