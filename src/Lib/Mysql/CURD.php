@@ -52,6 +52,10 @@ class CURD implements CURDInterface
             }
         }
         $exec = $sth->execute();
+        $error_code = intval($sth->errorCode());
+        if($error_code != 0){
+            throw new \PDOException($sth->errorInfo()[2],$error_code);
+        }
         $this->sql = null;
         $this->table = null;
         if (!$exec) {
