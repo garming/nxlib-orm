@@ -81,7 +81,7 @@ class CURD implements CURDInterface
         return (empty($last_id) ? $rs : $last_id);
     }
 
-    public function table($name, $alias = '')
+    public function table($name, $alias = ''):CURDInterface
     {
         $this->table = [
             'name' => $name,
@@ -90,7 +90,7 @@ class CURD implements CURDInterface
         return $this;
     }
 
-    public function insert(array $data)
+    public function insert(array $data):CURDInterface
     {
         $this->checkEmptyData($data,'Insert');
         $this->checkSyntax();
@@ -114,7 +114,7 @@ class CURD implements CURDInterface
      * @return $this
      * will return the first insert id
      */
-    public function insertMulti(array $data)
+    public function insertMulti(array $data):CURDInterface
     {
         $this->checkEmptyData($data,'insertMulti');
         $this->checkSyntax();
@@ -148,7 +148,7 @@ class CURD implements CURDInterface
         return $this;
     }
 
-    public function insertExistUpdate(array $data, array $update_data = [])
+    public function insertExistUpdate(array $data, array $update_data = []):CURDInterface
     {
         $this->insert($data);
 
@@ -167,7 +167,7 @@ class CURD implements CURDInterface
         return $this;
     }
 
-    public function update(array $data)
+    public function update(array $data):CURDInterface
     {
         $this->checkEmptyData($data,'Update');
         $this->checkSyntax();
@@ -181,7 +181,7 @@ class CURD implements CURDInterface
         return $this;
     }
 
-    public function delete()
+    public function delete():CURDInterface
     {
         $this->checkSyntax();
         $this->sql[0] = "DELETE FROM {$this->tableName()}";
@@ -203,7 +203,7 @@ class CURD implements CURDInterface
         $this->conn->rollBack();
     }
 
-    public function select($fields = '*')
+    public function select($fields = '*'):CURDInterface
     {
         $this->checkSyntax();
         if (is_array($fields) && !empty($fields)) {
@@ -219,20 +219,20 @@ class CURD implements CURDInterface
         return $this;
     }
 
-    public function selectOne($fields = '*')
+    public function selectOne($fields = '*'):CURDInterface
     {
         $this->is_select_one = 1;
         return $this->select($fields);
     }
 
-    public function count()
+    public function count():CURDInterface
     {
         $field = ['count(*) as count_num'];
         $this->is_count = 1;
         return $this->select($field);
     }
 
-    public function where($column, $operation, $value)
+    public function where($column, $operation, $value):CURDInterface
     {
         if (in_array(" WHERE ", $this->sql, 1)) {
             $this->sql[] = " AND {$column}{$operation}?";
@@ -245,7 +245,7 @@ class CURD implements CURDInterface
         return $this;
     }
 
-    public function orWhere($column, $operation, $value)
+    public function orWhere($column, $operation, $value):CURDInterface
     {
         $this->sql[] = " OR {$column}{$operation}?";
         $this->sql['bindParam'][] = $value;
@@ -258,7 +258,7 @@ class CURD implements CURDInterface
      * @param array $on ["column" => "value"]
      * @return $this
      */
-    public function ljoin($tb, $alias, array $on)
+    public function ljoin($tb, $alias, array $on):CURDInterface
     {
         $table = $this->createTableName($tb, $alias);
         $condition = $this->joinConditionHandler($on);
@@ -272,7 +272,7 @@ class CURD implements CURDInterface
      * @param array $on ["column" => "value"]
      * @return $this
      */
-    public function rjoin($tb, $alias, array $on)
+    public function rjoin($tb, $alias, array $on):CURDInterface
     {
         $table = $this->createTableName($tb, $alias);
         $condition = $this->joinConditionHandler($on);
@@ -280,25 +280,25 @@ class CURD implements CURDInterface
         return $this;
     }
 
-    public function order($field, $sort = "ASC")
+    public function order($field, $sort = "ASC"):CURDInterface
     {
         $this->sql[] = " ORDER BY {$field} {$sort} ";
         return $this;
     }
 
-    public function group($expression)
+    public function group($expression):CURDInterface
     {
         $this->sql[] = " GROUP BY {$expression} ";
         return $this;
     }
 
-    public function having($expression)
+    public function having($expression):CURDInterface
     {
         $this->sql[] = " HAVING {$expression} ";
         return $this;
     }
 
-    public function limit($limit = 1, $offset = 0)
+    public function limit($limit = 1, $offset = 0):CURDInterface
     {
         $this->sql[] = " LIMIT {$offset},{$limit} ";
         return $this;

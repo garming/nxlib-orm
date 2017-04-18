@@ -14,17 +14,17 @@ interface CURDInterface
 
     public function query($sql,$bindParam = []);
 
-    public function table($name, $alias = '');
+    public function table($name, $alias = ''):CURDInterface;
 
-    public function insert(array $data);
+    public function insert(array $data):CURDInterface;
 
-    public function insertMulti(array $data);
+    public function insertMulti(array $data):CURDInterface;
 
-    public function insertExistUpdate(array $data, array $update_data);
+    public function insertExistUpdate(array $data, array $update_data):CURDInterface;
 
-    public function update(array $data);
+    public function update(array $data):CURDInterface;
 
-    public function delete();
+    public function delete():CURDInterface;
 
     public function beginTransaction();
 
@@ -32,27 +32,27 @@ interface CURDInterface
 
     public function rollBack();
 
-    public function select($fields = '*');
+    public function select($fields = '*'):CURDInterface;
 
-    public function selectOne($fields = '*');
+    public function selectOne($fields = '*'):CURDInterface;
 
-    public function count();
+    public function count():CURDInterface;
 
-    public function where($column, $operation, $value);
+    public function where($column, $operation, $value):CURDInterface;
 
-    public function orWhere($column, $operation, $value);
+    public function orWhere($column, $operation, $value):CURDInterface;
 
-    public function ljoin($tb, $alias, array $on);
+    public function ljoin($tb, $alias, array $on):CURDInterface;
 
-    public function rjoin($tb, $alias, array $on);
+    public function rjoin($tb, $alias, array $on):CURDInterface;
 
-    public function order($fields, $sort = "ASC");
+    public function order($fields, $sort = "ASC"):CURDInterface;
 
-    public function group($expression);
+    public function group($expression):CURDInterface;
 
-    public function having($expression);
+    public function having($expression):CURDInterface;
 
-    public function limit($limit = 1, $offset = 0);
+    public function limit($limit = 1, $offset = 0):CURDInterface;
 
     public function exec();
 

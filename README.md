@@ -3,7 +3,7 @@
 
 ## Requirements
 
-- php5.4+
+- php7.0+
 
 ## Installation
 
@@ -11,7 +11,7 @@
   ```
   "require":
         {
-             "nxlib/rdsorm":  "~1.0.0"
+             "nxlib/rdsorm":  "~2.0.0"
         }
   ```
   
@@ -26,7 +26,7 @@
       ],
       "minimum-stability": "dev",
       "require": {
-         "nxlib/rdsorm":  "~1.0.0"
+         "nxlib/rdsorm":  "~2.0.0"
       }
     }
   ```

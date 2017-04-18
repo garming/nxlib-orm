@@ -9,6 +9,7 @@
 namespace NxLib\RdsOrm;
 
 
+use NxLib\RdsOrm\Lib\CURDInterface;
 use NxLib\RdsOrm\Lib\EmpFunc;
 
 class Instance
@@ -38,7 +39,7 @@ class Instance
         }
     }
 
-    public static function get($flag = 'default')
+    public static function get($flag = 'default'):CURDInterface
     {
         if (!isset(self::$flag[$flag])) {
             return (new EmpFunc());
