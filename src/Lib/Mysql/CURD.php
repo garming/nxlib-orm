@@ -111,7 +111,7 @@ class CURD implements CURDInterface
 
     /**
      * @param array $data
-     * @return $this
+     * @return $this|CURDInterface will return the first insert id
      * will return the first insert id
      */
     public function insertMulti(array $data):CURDInterface

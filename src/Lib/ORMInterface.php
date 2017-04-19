@@ -18,6 +18,4 @@ interface ORMInterface
     public function save();
 
     public function delete();
-
-    public function add();
 }
