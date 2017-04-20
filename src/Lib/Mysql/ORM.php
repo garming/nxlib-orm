@@ -24,25 +24,31 @@ class ORM implements ORMInterface
         static::checkPrimary();
         $instance = Instance::get(static::$connect);
         $pk = static::$primary;
-
         $data = [];
-        if (is_string($pk)) {
-            $data = $instance->table(static::getTable())->selectOne()->where(static::$primary, "=", $primary_flag)->exec();
-        } elseif (is_array($pk) && count($pk) == count($primary_flag)) {
-
-            $first = current($pk);
+        if(is_array($primary_flag) && is_string(array_keys($primary_flag)[0])){
             $find = $instance->table(static::getTable())->selectOne();
-            if(isset($primary_flag[$first])){
+            foreach ($primary_flag as $key => $value){
+                $find->where($key, "=", $value);
+            }
+            $data = $find->exec();
+        }else{
+            if (is_string($pk)) {
+                $data = $instance->table(static::getTable())->selectOne()->where(static::$primary, "=", $primary_flag)->exec();
+            } elseif (is_array($pk) && count($pk) == count($primary_flag)) {
+                $first = current($pk);
+                $find = $instance->table(static::getTable())->selectOne();
+                if(isset($primary_flag[$first])){
 
-                foreach (static::$primary as $key){
-                    $find->where($key, "=", $primary_flag[$key]);
+                    foreach (static::$primary as $key){
+                        $find->where($key, "=", $primary_flag[$key]);
+                    }
+                    $data = $find->exec();
+                }else{
+                    foreach (static::$primary as $key => $column){
+                        $find->where($column, "=", $primary_flag[$key]);
+                    }
+                    $data = $find->exec();
                 }
-                $data = $find->exec();
-            }else{
-                foreach (static::$primary as $key => $column){
-                    $find->where($column, "=", $primary_flag[$key]);
-                }
-                $data = $find->exec();
             }
         }
         if(empty($data)){
@@ -61,7 +67,13 @@ class ORM implements ORMInterface
     public static function findAll($condiction = [])
     {
         $instance = Instance::get(static::$connect);
-        $data = $instance->table(static::getTable())->select()->exec();
+        if(is_array($condiction) && is_string(array_keys($condiction)[0])){
+            $find = $instance->table(static::getTable())->select();
+            foreach ($condiction as $key => $value){
+                $find->where($key, "=", $value);
+            }
+            $data = $find->exec();
+        }
         $class = static::class;
         $list = [];
         foreach ($data as $row) {
@@ -82,7 +94,6 @@ class ORM implements ORMInterface
     public static function getTable()
     {
         if(empty(static::$table)){
-            var_dump(static::class);
             static::$table = lcfirst(substr(static::class,strrpos(static::class,"\\")+1));
         }
         return static::$table;
@@ -137,6 +148,7 @@ class ORM implements ORMInterface
         if (is_string($pk)) {
             if (!empty($sham_del)) {
                 //logically deleted
+
                 $del = $del->update($sham_del)->where($pk, "=", $this->$pk)->exec();
             } else {
                 //physically deleted
