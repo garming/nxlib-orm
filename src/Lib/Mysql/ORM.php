@@ -15,11 +15,6 @@ use NxLib\RdsOrm\Lib\ORMInterface;
 
 class ORM implements ORMInterface
 {
-    public function __construct()
-    {
-        static::$table = null;
-    }
-
     protected static $table;
     protected static $connect = "default";
     protected static $primary = "id";
