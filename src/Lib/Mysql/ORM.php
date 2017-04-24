@@ -15,15 +15,16 @@ use NxLib\RdsOrm\Lib\ORMInterface;
 
 class ORM implements ORMInterface
 {
-    protected static $table;
-    protected static $connect = "default";
-    protected static $primary = "id";
-
     public function __construct()
     {
         static::$table = null;
     }
-    
+
+    protected static $table;
+    protected static $connect = "default";
+    protected static $primary = "id";
+    protected static $clazzName;
+
     public static function find($primary_flag)
     {
         static::checkPrimary();
@@ -98,12 +99,21 @@ class ORM implements ORMInterface
      */
     public static function getTable()
     {
-        if(empty(static::$table)){
-            static::$table = lcfirst(substr(static::class,strrpos(static::class,"\\")+1));
-        }
         return static::$table;
     }
 
+    /**
+     * @param mixed $table
+     */
+    public static function setTable($table)
+    {
+        $reflect = new \Reflection(static::class);
+        var_dump($reflect);
+    }
+
+    protected function getSelfTable(){
+        return self::$table;
+    }
     public function save()
     {
         static::checkPrimary();
