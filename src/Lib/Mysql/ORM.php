@@ -19,6 +19,11 @@ class ORM implements ORMInterface
     protected static $connect = "default";
     protected static $primary = "id";
 
+    public function __construct()
+    {
+        static::$table = null;
+    }
+    
     public static function find($primary_flag)
     {
         static::checkPrimary();
