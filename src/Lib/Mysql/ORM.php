@@ -97,21 +97,10 @@ class ORM implements ORMInterface
         return static::$table;
     }
 
-    /**
-     * @param mixed $table
-     */
-    public static function setTable($table)
-    {
-        $reflect = new \Reflection(static::class);
-        var_dump($reflect);
-    }
-
-    protected function getSelfTable(){
-        return self::$table;
-    }
     public function save()
     {
         static::checkPrimary();
+        static::validate();
         $instance = Instance::get(static::$connect);
         $save = $instance->table(static::getTable());
         $pk = static::$primary;
@@ -193,5 +182,12 @@ class ORM implements ORMInterface
         if(!is_string(static::$primary) && !is_array(static::$primary)){
             throw new ORMSaveException('$primary data type error,support `string` and `array` only');
         }
+    }
+
+    /**
+     * validate data before save to db
+     * if validate fail,throw ORMValidateException
+     */
+    public static function validate(){
     }
 }
