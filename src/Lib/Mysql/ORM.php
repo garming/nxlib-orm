@@ -100,7 +100,7 @@ class ORM implements ORMInterface
     public function save()
     {
         static::checkPrimary();
-        static::validate();
+        $this->validate();
         $instance = Instance::get(static::$connect);
         $save = $instance->table(static::getTable());
         $pk = static::$primary;
@@ -188,6 +188,6 @@ class ORM implements ORMInterface
      * validate data before save to db
      * if validate fail,throw ORMValidateException
      */
-    public static function validate(){
+    public function validate(){
     }
 }
