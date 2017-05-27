@@ -64,9 +64,11 @@ class CURD implements CURDInterface
         if (strpos($sql, "SELECT") === 0 || strpos($sql, "select") === 0) {
             $rs = $sth->fetchAll(\PDO::FETCH_ASSOC);
             if ($this->is_select_one) {
+                $this->is_select_one = 0;
                 return (isset($rs[0]) ? $rs[0] : []);
             }
             if ($this->is_count) {
+                $this->is_count = 0;
                 return (isset($rs[0]['count_num']) ? intval($rs[0]['count_num']) : 0);
             }
             return $rs;
