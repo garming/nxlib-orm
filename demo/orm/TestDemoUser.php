@@ -6,7 +6,7 @@ namespace Demo;
  * Date: 24/01/2017
  * Time: 01:17
  */
-class User extends \NxLib\RdsOrm\Lib\Mysql\ORM
+class TestDemoUser extends \NxLib\RdsOrm\Lib\Mysql\ORM
 {
     protected static $table = "users";
     public $id;
