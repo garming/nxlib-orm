@@ -50,7 +50,7 @@ class Connect implements ConnectInterface
             array(\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES {$config['charset']}")
         );
         $pdo->setAttribute(\PDO::ATTR_STRINGIFY_FETCHES, false);
-        $pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+        $pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, isset($config['ATTR_EMULATE_PREPARES']) ? $config['ATTR_EMULATE_PREPARES']:false);
         self::$all_connection[$connection_flag] = $pdo;
     }
 
