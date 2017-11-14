@@ -20,19 +20,36 @@ class CURD implements CURDInterface
     private $table;
     private $is_select_one = 0;
     private $is_count = 0;
+    private $connection_flag;
 
     public function __construct($flag)
     {
-        $this->conn = Connect::getConnection($flag);
-        if (empty($this->conn)) {
-            $this->conn = new EmpFunc();
-        }
+        $this->init($flag);
+    }
+    private function init($flag){
+      $this->connection_flag = $flag;
+      $this->conn = Connect::getConnection($flag);
+      if (empty($this->conn)) {
+        $this->conn = new EmpFunc();
+      }
     }
 
     public function query($sql, $bindParam = [])
     {
         if (empty($sql)) {
             return null;
+        }
+        try {
+          $this->conn ->getAttribute(\PDO::ATTR_SERVER_INFO);
+        } catch (\Exception $e) {
+
+          if ($e->getCode() == 'HY000') {
+//            $pdo = new PDO(xxx);  //重连
+              Connect::reConnect($this->connection_flag);
+            $this->init($this->connection_flag);
+          } else {
+            throw $e;
+          }
         }
         $sth = $this->conn->prepare($sql);
         if (!empty($bindParam)) {
