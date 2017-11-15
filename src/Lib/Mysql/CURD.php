@@ -39,19 +39,18 @@ class CURD implements CURDInterface
         if (empty($sql)) {
             return null;
         }
-        try {
-          $this->conn ->getAttribute(\PDO::ATTR_SERVER_INFO);
-        } catch (\Exception $e) {
-
-          if ($e->getCode() == 'HY000') {
-//            $pdo = new PDO(xxx);  //重连
-              Connect::reConnect($this->connection_flag);
+        $sth = $this->conn->prepare($sql);
+        if (false === $sth)
+        {
+          if ($sth->errorCode() == 'HY000') {
+            Connect::reConnect($this->connection_flag);
             $this->init($this->connection_flag);
+            $sth = $this->conn->prepare($sql);
           } else {
-            throw $e;
+            $infoArr = $sth->errorInfo();
+            throw new Exception('error in execute sql, errror Code: '.$sth->errorCode().', error Info: '.$infoArr[2]);
           }
         }
-        $sth = $this->conn->prepare($sql);
         if (!empty($bindParam)) {
             $i = 1;
             foreach ($bindParam as $k => $v) {
@@ -69,6 +68,17 @@ class CURD implements CURDInterface
             }
         }
         $exec = $sth->execute();
+        if (!$exec)
+        {
+          if ($sth->errorCode() == 'HY000') {
+            Connect::reConnect($this->connection_flag);
+            $this->init($this->connection_flag);
+            $exec = $sth->execute();
+          } else {
+            $infoArr = $sth->errorInfo();
+            throw new Exception('error in execute sql, errror Code: '.$sth->errorCode().', error Info: '.$infoArr[2]);
+          }
+        }
         $error_code = intval($sth->errorCode());
         if($error_code != 0){
             throw new \PDOException($sth->errorInfo()[2],$sth->errorInfo()[1]);
