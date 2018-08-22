@@ -264,20 +264,38 @@ class CURD implements CURDInterface
     public function where($column, $operation, $value):CURDInterface
     {
         if (in_array(" WHERE ", $this->sql, 1)) {
-            $this->sql[] = " AND {$column}{$operation}?";
-            $this->sql['bindParam'][] = $value;
+            $this->sql[] = " AND ";
         } else {
             $this->sql[] = " WHERE ";
-            $this->sql[] = "{$column}{$operation}?";
-            $this->sql['bindParam'][] = $value;
         }
-        return $this;
+        return $this->bindingWhere($column, $operation, $value);
     }
 
     public function orWhere($column, $operation, $value):CURDInterface
     {
-        $this->sql[] = " OR {$column}{$operation}?";
-        $this->sql['bindParam'][] = $value;
+        $this->sql[] = " OR ";
+        return $this->bindingWhere($column, $operation, $value);
+    }
+
+    function bindingWhere($column, $operation, $value):CURDInterface
+    {
+        $type = gettype($value);
+        switch ($type) {
+            case 'array':
+            case 'object':
+                $holder = [];
+                foreach ($value as $v) {
+                    $holder[] = '?';
+                    $this->sql['bindParam'][] = $v;
+                }
+                $holderStr = '(' .  implode(',', $holder). ')';
+                $this->sql[] = " {$column} {$operation} {$holderStr} ";
+                break;
+            default:
+                $this->sql[] = " {$column} {$operation} ? ";
+                $this->sql['bindParam'][] = $value;
+                break;
+        }
         return $this;
     }
 
