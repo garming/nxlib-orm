@@ -23,5 +23,10 @@ $table = "users";
 //$data = $default->table($table)->select()->where("id","<",1)->exec();
 //console($data);
 //
-$data = $default->table($table)->select()->where("id"," like ","%1%")->exec();
-console($data);
+$user = $default->table($table)->select();
+$count = $default->table($table)->count();
+$arr = [$user,$count];
+foreach ( $arr as $obj){
+    $data = $obj->where("id"," = ","1")->exec();
+    console($data);
+}

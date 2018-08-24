@@ -116,7 +116,7 @@ class CURD implements CURDInterface
             'name' => $name,
             'alias' => $alias
         ];
-        return $this;
+        return (clone $this);
     }
 
     public function insert(array $data):CURDInterface
