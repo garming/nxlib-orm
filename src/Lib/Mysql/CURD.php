@@ -11,6 +11,7 @@ namespace NxLib\RdsOrm\Lib\Mysql;
 
 use NxLib\RdsOrm\Lib\CURDInterface;
 use NxLib\RdsOrm\Lib\EmpFunc;
+use NxLib\RdsOrm\Lib\Exception\ORMExecuteException;
 
 class CURD implements CURDInterface
 {
@@ -34,6 +35,13 @@ class CURD implements CURDInterface
       }
     }
 
+    /**
+     * @param       $sql
+     * @param array $bindParam
+     *
+     * @return array|int|null
+     * @throws \NxLib\RdsOrm\Lib\Exception\ORMExecuteException
+     */
     public function query($sql, $bindParam = [])
     {
         if (empty($sql)) {
@@ -48,7 +56,7 @@ class CURD implements CURDInterface
             $sth = $this->conn->prepare($sql);
           } else {
             $infoArr = $sth->errorInfo();
-            throw new Exception('error in execute sql, errror Code: '.$sth->errorCode().', error Info: '.$infoArr[2]);
+            throw new ORMExecuteException('error in execute sql, errror Code: '.$sth->errorCode().', error Info: '.$infoArr[2]);
           }
         }
         if (!empty($bindParam)) {
@@ -76,7 +84,7 @@ class CURD implements CURDInterface
             $exec = $sth->execute();
           } else {
             $infoArr = $sth->errorInfo();
-            throw new Exception('error in execute sql, errror Code: '.$sth->errorCode().', error Info: '.$infoArr[2]);
+            throw new ORMExecuteException('error in execute sql, errror Code: '.$sth->errorCode().', error Info: '.$infoArr[2]);
           }
         }
         $error_code = intval($sth->errorCode());
