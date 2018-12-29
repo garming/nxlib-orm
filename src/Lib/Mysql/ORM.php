@@ -111,7 +111,7 @@ class ORM implements ORMInterface
         }
         if (is_string($pk)) {
             if (!isset($save_data[$pk]) || empty($save_data[$pk])) {
-                if (isset($save_data[$pk])) {
+                if (isset($save_data[$pk]) || is_null($save_data[$pk])) {
                     unset($save_data[$pk]);
                 }
                 $save = $save->insert($save_data)->exec();
