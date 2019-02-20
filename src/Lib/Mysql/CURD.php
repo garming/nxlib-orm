@@ -50,14 +50,9 @@ class CURD implements CURDInterface
         $sth = $this->conn->prepare($sql);
         if (false === $sth)
         {
-          if ($sth->errorCode() == 'HY000') {
             Connect::reConnect($this->connection_flag);
             $this->init($this->connection_flag);
             $sth = $this->conn->prepare($sql);
-          } else {
-            $infoArr = $sth->errorInfo();
-            throw new ORMExecuteException('error in execute sql, errror Code: '.$sth->errorCode().', error Info: '.$infoArr[2]);
-          }
         }
         if (!empty($bindParam)) {
             $i = 1;

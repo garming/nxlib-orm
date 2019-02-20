@@ -9,6 +9,7 @@
 namespace NxLib\RdsOrm\Lib\Mysql;
 
 
+use mysql_xdevapi\Collection;
 use NxLib\RdsOrm\Instance;
 use NxLib\RdsOrm\Lib\Exception\ORMSaveException;
 use NxLib\RdsOrm\Lib\ORMInterface;
@@ -19,6 +20,17 @@ class ORM implements ORMInterface
     protected static $connect = "default";
     protected static $primary = "id";
     protected static $clazzName;
+
+    public function __construct($initData = null)
+    {
+        if(!is_null($initData)){
+            foreach ($this as $k => $v){
+                if(isset($initData[$k])){
+                    $this->$k = $initData[$k];
+                }
+            }
+        }
+    }
 
     public static function find($primary_flag)
     {
